@@ -1,6 +1,10 @@
 import { Feather } from '@expo/vector-icons';
+import { Session } from '@supabase/supabase-js';
 import { Stack, useRouter } from 'expo-router';
+import { createStore, Provider } from 'jotai';
 import { Text, TouchableOpacity, View } from 'react-native';
+
+export const store = createStore();
 
 export default function Layout() {
   const router = useRouter();
@@ -15,13 +19,19 @@ export default function Layout() {
   );
 
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ title: 'Overview' }} />
-      <Stack.Screen
-        name="details"
-        options={{ title: 'Details', headerLeft: () => <BackButton /> }}
-      />
-    </Stack>
+    <Provider store={store}>
+      <Stack>
+        <Stack.Screen name="index" options={{ title: 'Overview' }} />
+        <Stack.Screen
+          name="details"
+          options={{ title: 'Details', headerLeft: () => <BackButton /> }}
+        />
+        <Stack.Screen
+          name="accountScreen"
+          options={{ title: 'Account', headerLeft: () => <BackButton /> }}
+        />
+      </Stack>
+    </Provider>
   );
 }
 

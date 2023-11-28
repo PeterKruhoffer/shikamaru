@@ -1,24 +1,12 @@
-import { Session } from '@supabase/supabase-js';
 import { Link } from 'expo-router';
-import { useState, useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import Account from '../components/Account';
 import Auth from '../components/Auth';
-import { supabase } from '../utils/supabase';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Page() {
-  const [session, setSession] = useState<Session | null>(null);
+  const { session } = useAuth();
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
   return (
     <View className={styles.container}>
       <View className={styles.main}>
@@ -26,10 +14,15 @@ export default function Page() {
           <Text className={styles.title}>Hello World</Text>
           <Text className={styles.subtitle}>This is the first page of your app.</Text>
         </View>
-        {session && session.user ? <Account key={session.user.id} session={session} /> : <Auth />}
+        {session === null && <Auth />}
         <Link href={{ pathname: '/details', params: { name: 'Peter' } }} asChild>
           <TouchableOpacity className={styles.button}>
             <Text className={styles.buttonText}>Show Details</Text>
+          </TouchableOpacity>
+        </Link>
+        <Link href={{ pathname: '/accountScreen' }} asChild>
+          <TouchableOpacity className={styles.button}>
+            <Text className={styles.buttonText}>Account</Text>
           </TouchableOpacity>
         </Link>
       </View>

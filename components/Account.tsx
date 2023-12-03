@@ -12,7 +12,9 @@ export default function Account({ session }: { session: Session }) {
   const [avatarUrl, setAvatarUrl] = useState('');
 
   useEffect(() => {
-    if (session) getProfile();
+    if (session) {
+      getProfile();
+    }
   }, [session]);
 
   async function getProfile() {

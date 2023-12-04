@@ -1,6 +1,6 @@
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { atom, useAtom } from 'jotai';
-import { Text, TouchableOpacity, View, FlatList, Pressable } from 'react-native';
+import { Text, TouchableOpacity, View, FlatList } from 'react-native';
 
 import Auth from '../components/Auth';
 import { useAuth } from '../hooks/useAuth';
@@ -53,7 +53,6 @@ export const roomsAtom = atom([room1, room2]);
 export default function Page() {
   const { session } = useAuth();
   const [rooms] = useAtom(roomsAtom);
-  const router = useRouter();
 
   return (
     <View className={styles.container}>
@@ -64,18 +63,14 @@ export default function Page() {
             data={rooms}
             ItemSeparatorComponent={() => <View className="h-8 bg-stone-100" />}
             renderItem={({ item }) => (
-              <Pressable
-                onPress={() =>
-                  router.push({
-                    pathname: '/room/[roomId]',
-                    params: { roomId: item.roomId },
-                  })
-                }
-                className="rounded-lg">
+              <Link
+                href={{ pathname: '/room/[roomId]', params: { roomId: item.roomId } }}
+                className="rounded-lg"
+                asChild>
                 <Text className="bg-stone-900 h-40 text-xl text-stone-100 p-2">
                   {item.roomName}
                 </Text>
-              </Pressable>
+              </Link>
             )}
             keyExtractor={(item) => item.roomId.toString()}
           />

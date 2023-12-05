@@ -1,35 +1,13 @@
-import { Feather } from '@expo/vector-icons';
-import { Stack, useRouter } from 'expo-router';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Stack } from 'expo-router';
 
 export default function Layout() {
-  const router = useRouter();
-
-  const BackButton = () => (
-    <TouchableOpacity onPress={router.back}>
-      <View className={styles.backButton}>
-        <Feather name="chevron-left" size={16} color="#007AFF" />
-        <Text className={styles.backButtonText}>Back</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
   return (
     <Stack>
       <Stack.Screen name="index" options={{ title: 'Overview' }} />
-      <Stack.Screen
-        name="details"
-        options={{ title: 'Details', headerLeft: () => <BackButton /> }}
-      />
-      <Stack.Screen
-        name="accountScreen"
-        options={{ title: 'Account', headerLeft: () => <BackButton /> }}
-      />
+      <Stack.Screen name="details" options={{ title: 'Details' }} />
+      <Stack.Screen name="accountScreen" options={{ title: 'Account' }} />
+      <Stack.Screen name="room/[roomId]" options={{ title: 'Room' }} />
+      <Stack.Screen name="task/[taskId]" options={{ title: 'Task' }} />
     </Stack>
   );
 }
-
-const styles = {
-  backButton: 'flex-row',
-  backButtonText: 'text-blue-500 ml-1',
-};
